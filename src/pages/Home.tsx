@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-
+import React, { useContext, useState } from 'react';
+import {View} from 'react-native';
 import { Header } from '../components/Header';
 import { MyTasksList } from '../components/MyTasksList';
 import { TodoInput } from '../components/TodoInput';
+import ThemeContext from '../context/ThemeContext'
 
 interface Task {
   id: number;
@@ -12,6 +13,7 @@ interface Task {
 
 export function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const themeMode = useContext(ThemeContext)
 
   function handleAddTask(newTaskTitle: string) {
     if (newTaskTitle !== '') {
@@ -38,7 +40,7 @@ export function Home() {
   }
 
   return (
-    <>
+    <View style={themeMode[0] === 'light' ? {flex: 1, backgroundColor: '#fff'} : {flex: 1, backgroundColor: '#1F1F1F'}}>
       <Header />
 
       <TodoInput addTask={handleAddTask} />
@@ -48,6 +50,6 @@ export function Home() {
         onPress={handleMarkTaskAsDone} 
         onLongPress={handleRemoveTask} 
       />
-    </>
+    </View>
   )
 }
